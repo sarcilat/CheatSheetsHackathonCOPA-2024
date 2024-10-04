@@ -4,6 +4,245 @@
 
 ## Linux
 
+Red Hat pone a disposición de las personas que quieran aprender sobre Linux un ambiente libre y seguro sobre el cual se pueda aprender y probar algunas caracteristicas de Red Hat Enterprise Linux, de forma gratuita, y al que pueden acceder por medio del siguiente [enlace](https://www.redhat.com/en/interactive-labs/red-hat-enterprise-linux-open-lab). Te recomendamos que utilices este recurso si eres nuevo en el mundo de linux y quieres aprender.
+
+A continuación encontrarás una serie de recursos que esperamos que te sean de utilidad. Ten en cuenta que puedes encontrar mucha más información, al igual que libros, tutoriales, artículos acerca de RHEL (Red Hat Enterprise Linux), entre otras tecnologías, como Ansible, Kubernetes y mucho más en el [Portal de developers de Red Hat](developers.redhat.com), y todo esto de forma gratuita.
+
+En las proximas secciones encontrarás algunos comandos que te pueden resultar de interés o utilidad, pero antes de ello, te compartimos este [Cheat Sheet](https://developers.redhat.com/cheat-sheets/red-hat-enterprise-linux-8) de RHEL 8, que esperamos también te resulte útil.
+
+### Gestión de usuarios
+
+Comandos de utilidad:
+
+- useradd
+- adduser
+- userdel
+- passwd
+- id
+- chage
+
+Archivos:
+
+- /etc/passwd
+- /etc/shadow
+- /etc/group
+
+### Uso de manuales
+
+Comandos de utilidad:
+
+- man
+- Opciones de comando con --help o -h
+- Tab
+- apropos
+
+Archivos:
+
+- /bin
+- /sbin
+- /usr/bin
+
+Documentación:
+
+- docs.redhat.com
+
+### Gestión de paquetes
+
+Comandos de utilidad:
+
+- yum / dnf
+  - install
+  - remove
+  - update
+  - history
+- rpm
+  - `-qa`
+  - `-ql`
+- subscription-manager
+  - list
+  - repolist
+  - register
+  - unregister
+
+### Gestión de servicios (Iniciar y apagar)
+
+Comandos de utilidad:
+
+- enab
+  - start
+  - stop
+  - restart
+  - status
+  - enable
+  - disable
+  - list-units (--type=service)
+  - list-units (--type=target)
+  - is-active
+  - is-enable
+  - systemctl get-default
+  - set-default <valor>
+
+### bash script
+
+Bourne Again Shell o bash (abreviatura), implementa una capacidad pára programar usando comandos de Shell, haciendo que algunas tareas de gestión y de administración sean más sencillas. Se usan archivos ejecutables, por lo que debes otorgar permisos de ejecución a tus archivos de bash script, usando el comando `chmod`.
+
+Siempre llevan el mismo cabecero:
+
+```bash
+#!/usr/bin/bash
+```
+
+Un ejemplo puede ser:
+
+```bash
+#!/usr/bin/bash
+
+# imprimir hello world para la hackaton
+echo "hello world"
+echo "ERROR: Houston, we have a problem." >&2
+```
+
+#### Variables
+
+```bash
+var=$(hostname -s); echo $var
+```
+
+Literales (No retorna el valor de la variable)
+
+```bash
+echo Your username variable is \$USER
+```
+
+#### Ciclos
+
+```bash
+for VARIABLE in LIST
+do Commands with VARIABLE
+done
+```
+
+Ejemplo:
+
+```bash
+for HOST in host1 host2 host3; do echo $HOST; done
+```
+
+Ejemplo usando un grupo de datos
+
+```bash
+for HOST in host{1,2,3}; do echo $HOST; done
+```
+
+#### Decisiones
+
+Comparar números:
+
+- `gt`= greater than
+- `ge`= greater than or equal to
+- `lt`= less than
+- `le`= less than or equal to
+- `eq`= equal to another number
+- `ne`= Not equal to another number
+
+Comparar Strings:
+
+- `=` o `==` Comparar si dos cadenas de texto son iguales
+- `!=` Comparar si dos cadenas de texto son diferentes
+- `z` -> Validar si la longitud de un string es de cero
+- `n` -> Validar si la longitud de un string es diferente de cero
+
+Directorios y archivos:
+
+- `-d` -> revisar si un directorio existe
+- `-f` -> revisar si un archivo existe
+- `-r` -> validar si el usuario tiene permiso de lectura
+
+Ejemplos:
+
+```bash
+test 1 -gt 0 ; echo $?
+
+test 0 -gt 1 ; echo $?
+
+[[ 1 -eq 1 ]]; echo $?
+
+[[ 1 -ne 1 ]]; echo $?
+
+[[ 8 -gt 2 ]]; echo $?
+
+[[ 2 -ge 2 ]]; echo $?
+
+[[ 2 -lt 2 ]]; echo $?
+
+[[ 1 -lt 2 ]]; echo $?
+
+[[ abc = abc ]]; echo $?
+
+[[ abc == def ]]; echo $?
+
+[[ abc != def ]]; echo $?
+```
+
+**Bonus:**
+
+`$?`se usa para obtener el codigo de salida del comando que se haya ejecutado inmediatamente antes de ejecutar este comando. Si el resultado es `0`, quiere decir que la ejecución fue exitosa. Cualquier otro número por fuera de eso es indicativo de que se presentó un error o una ejecución parcial.
+
+#### Condicionales
+
+```bash
+if <CONDITION>; then
+      <STATEMENT>
+      ...
+      <STATEMENT>
+elif <CONDITION>; then
+      <STATEMENT>
+      ...
+      <STATEMENT>
+else
+      <STATEMENT>
+      ...
+      <STATEMENT>
+fi
+```
+
+### SELinux
+
+Es un mecanismo de MAC (Mandatory Access Control), integrado al kernel. En su core implementa un sistema de etiquetas.
+
+- A cada proceso, archivo y puerto de red dentro de SELinux se le asigna una etiqueta que delinea su contexto de seguridad.
+- Estas etiquetas abarcan un tipo y una función, lo que permite a SELinux la capacidad de imponer controles de acceso meticulosamente. 
+- Esta intrincada estructura de etiquetas comprende designaciones de usuario, rol, tipo y nivel, generalmente conocidas como los componentes de MLS (Multi Level Security protection).
+
+Beneficios:
+
+- Minimize Attack Surface
+- Process Segregation
+- Enhanced Application Security
+- Precise Access Management
+
+modos de SELinux
+
+- `Enforcing`: En este modo, SELinux aplica activamente las políticas de seguridad definidas. Cualquier infracción desencadena una respuesta inmediata, como bloquear el acceso no autorizado o generar una alerta.
+- `Permissive`: En modo permisivo, SELinux registra las infracciones mientras aplica las políticas y sin bloquearlas activamente. Este modo es útil para identificar brechas en las políticas antes de pasar a la aplicación total.
+- `Disabled`: SELinux se apaga en modo deshabilitado y DAC se convierte en el principal mecanismo de control de acceso.
+
+Comandos:
+
+- sestatus
+- getenforce
+
+Directorios de interes:
+
+- /etc/selinux/config
+
+**Nota**: Tener en cuenta que el modo del SELinux se restablece cuando se reinicia la máquina, por lo cual se debe cambiar el estado en el archivo de SELinux. (Buscar la fila que diga algo similar a `SELINUX=permissive`)
+
+### Modificar memoria del sistema
+
+- https://www.arsys.es/blog/redimensionar-discos-duros-linux-no-reinicio
+- https://www.redhat.com/sysadmin/resize-lvm-simple
+
 ## Ansible
 
 ### ¿Qué es Ansible?
