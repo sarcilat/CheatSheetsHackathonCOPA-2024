@@ -1,7 +1,5 @@
 # CheatSheetsHackathonCOPA-2024
 
-## Introducción
-
 ## Linux
 
 Red Hat pone a disposición de las personas que quieran aprender sobre Linux un ambiente libre y seguro sobre el cual se pueda aprender y probar algunas caracteristicas de Red Hat Enterprise Linux, de forma gratuita, y al que pueden acceder por medio del siguiente [enlace](https://www.redhat.com/en/interactive-labs/red-hat-enterprise-linux-open-lab). Te recomendamos que utilices este recurso si eres nuevo en el mundo de linux y quieres aprender.
